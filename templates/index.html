@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>C4E's Corners</title>
+</head>
+<body>
+{#cau lenh dieu khien#}
+
+{% for flower in flowers %}
+    {# jinja 2#}
+    <img src="{{ flower.image }}" alt="">
+    <h3>{{ flower.title }}</h3>
+    <p>{{ flower.price }}</p>
+{% endfor %}
+
+</body>
+
+</html>
