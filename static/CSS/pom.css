@@ -1,0 +1,33 @@
+.menu:not(.menu_vertical) {
+    color: #402E2A;
+    background: #D5B0AC;
+    font-weight: bold;
+    text-align: center;
+
+}
+
+.menu > span {
+    display: inline-block;
+    width: 100px;
+    height: 30px;
+    line-height: 30px;
+}
+
+.menu_vertical > span {
+    color: #402E2A;
+    background: #D5B0AC;
+    font-weight: bold;
+    text-align: center;
+    display:block;
+    width: 100px;
+    height: 30px;
+    margin: 2px;
+}
+
+
+span:hover{
+    background: #9CD08F;
+    color: #FFFFFF;
+    cursor: pointer;
+    cursor: hand;
+}

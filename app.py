@@ -1,9 +1,14 @@
 from flask import *
 import mlab
+import os
 from mongoengine import *
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 mlab.connect()
+
+app.config["IMG_PATH"] = os.path.join(app.root_path, "images")
+app.secret_key = "hahaha"
 
 class Flower(Document):
     image = StringField()
@@ -38,9 +43,65 @@ flowers = [
     }
 ]
 
-@app.route('/add-flower', methods=["GET"])
+
+
+@app.route("/images/<image_name>")
+def images(image_name):
+    return send_from_directory(app.config["IMG_PATH"], image_name)
+
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "GET":
+        return render_template("login.html")
+    elif request.method == "POST":
+        form = request.form
+        username = form["username"]
+        password = form["password"]
+
+        if username == "admin" and password == "admin":
+            #Valid credentials
+            session["logged_in"] = True
+            return redirect(url_for("index"))
+        else:
+            #Invalid credentials
+            return "Invalid credentials"
+
+
+@app.route("/logout")
+def logout():
+    session["logged_in"] = False
+    return redirect(url_for("login"))
+
+
+@app.route('/add-flower', methods=["GET", "POST"])
 def add_flower():
-    return render_template("add_flower.html")
+    if "logged_in" in session and session["logged_in"]:
+        if request.method == "GET": #FORM Requested
+            return render_template("add_flower.html")
+        elif request.method == "POST": #User submitted FORM
+            #1: Get data (title, image, price)
+            form = request.form
+            title = form["price"]
+            # image = form["image"]
+            price = form["price"]
+
+            image = request.files["image"]
+
+            filename = secure_filename(image.filename)
+
+            image.save(os.path.join(app.config["IMG_PATH"], filename))
+
+            #2: Save data into database
+            new_flower = Flower(title = title,
+                                image = "/images/{0}".format(filename),
+                                price = price)
+            new_flower.save()
+
+            return redirect(url_for("index"))
+    else:
+        return redirect(url_for("login"))
+
 
 @app.route('/')
 def index():
@@ -53,3 +114,4 @@ def about():
 
 if __name__ == '__main__':
     app.run()
+

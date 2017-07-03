@@ -1,0 +1,65 @@
+h1 {
+    color: red;
+    }
+
+/*
+   * h1 - selector
+   * color - property
+   * red - value
+   */
+
+p {
+    front-weight: bold;
+}
+
+/*
+   * id selector start with a # followed by the element's id
+   */
+
+#p1{
+    background: aquamarine;
+    width: 100px;
+    height: 50px;
+}
+
+.comicsans {
+    font-family: "Comic Sans MS";
+}
+
+.bluetext {
+    color: blue;
+}
+/*
+   * Attribute selector is wrapped between [ and ]
+   */
+[type="text"]{
+    border: 2px dashed brown;
+}
+
+[href]{
+    text-shadow: 1px 1px #333333;
+}
+
+ul li{
+    list-style: none;
+}
+
+div > a{
+    font-style: italic;
+}
+
+img:hover{
+    box-shadow: 0 0 15px #777777;
+}
+
+a:active {
+    color: green;
+}
+
+img{
+    border-radius: 100%;
+}
+input:focus{
+    border-radius: 8px;
+    outline: 0 none;
+}
